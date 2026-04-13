@@ -1,10 +1,10 @@
-<!-- templates/login.html -->
+<!-- templates/register.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Recharge Website</title>
+    <title>Register - Recharge Website</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -24,12 +24,12 @@
             padding: 20px;
         }
 
-        .login-container {
+        .register-container {
             width: 100%;
-            max-width: 450px;
+            max-width: 500px;
         }
 
-        .login-card {
+        .register-card {
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -48,35 +48,35 @@
             }
         }
 
-        .login-header {
+        .register-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 40px 30px;
+            padding: 35px 30px;
             text-align: center;
             color: white;
         }
 
-        .login-header i {
-            font-size: 60px;
+        .register-header i {
+            font-size: 55px;
             margin-bottom: 15px;
         }
 
-        .login-header h1 {
+        .register-header h1 {
             font-size: 28px;
             font-weight: 700;
             margin-bottom: 8px;
         }
 
-        .login-header p {
+        .register-header p {
             font-size: 14px;
             opacity: 0.9;
         }
 
-        .login-body {
-            padding: 40px 30px;
+        .register-body {
+            padding: 35px 30px;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
@@ -102,8 +102,8 @@
 
         .form-control {
             width: 100%;
-            padding: 14px 15px 14px 45px;
-            font-size: 15px;
+            padding: 13px 15px 13px 45px;
+            font-size: 14px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             transition: all 0.3s ease;
@@ -116,7 +116,14 @@
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         }
 
-        .btn-login {
+        .form-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+            display: block;
+        }
+
+        .btn-register {
             width: 100%;
             padding: 14px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -128,31 +135,32 @@
             cursor: pointer;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             font-family: 'Poppins', sans-serif;
+            margin-top: 10px;
         }
 
-        .btn-login:hover {
+        .btn-register:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
         }
 
-        .btn-login:active {
+        .btn-register:active {
             transform: translateY(0);
         }
 
-        .register-link {
+        .login-link {
             text-align: center;
             margin-top: 25px;
             font-size: 14px;
             color: #666;
         }
 
-        .register-link a {
+        .login-link a {
             color: #667eea;
             text-decoration: none;
             font-weight: 600;
         }
 
-        .register-link a:hover {
+        .login-link a:hover {
             text-decoration: underline;
         }
 
@@ -194,53 +202,48 @@
             font-size: 18px;
         }
 
-        .demo-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #666;
-            text-align: center;
+        .password-strength {
+            margin-top: 8px;
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            overflow: hidden;
         }
 
-        .demo-info strong {
-            color: #333;
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
         }
 
         @media (max-width: 480px) {
-            .login-header {
-                padding: 30px 20px;
+            .register-header {
+                padding: 25px 20px;
             }
             
-            .login-header i {
-                font-size: 50px;
+            .register-header i {
+                font-size: 45px;
             }
             
-            .login-header h1 {
+            .register-header h1 {
                 font-size: 24px;
             }
             
-            .login-body {
-                padding: 30px 20px;
-            }
-            
-            .form-control {
-                padding: 12px 15px 12px 40px;
-                font-size: 14px;
+            .register-body {
+                padding: 25px 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <div class="login-header">
-                <i class="fas fa-mobile-alt"></i>
-                <h1>Welcome Back!</h1>
-                <p>Login to your recharge account</p>
+    <div class="register-container">
+        <div class="register-card">
+            <div class="register-header">
+                <i class="fas fa-user-plus"></i>
+                <h1>Create Account</h1>
+                <p>Join us and start recharging instantly</p>
             </div>
-            <div class="login-body">
+            <div class="register-body">
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         {% for category, message in messages %}
@@ -252,34 +255,84 @@
                     {% endif %}
                 {% endwith %}
                 
-                <form method="POST">
+                <form method="POST" id="registerForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" name="name" class="form-control" placeholder="Enter your full name" required minlength="2" maxlength="100">
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label>Mobile Number</label>
                         <div class="input-group">
                             <i class="fas fa-phone"></i>
-                            <input type="tel" name="mobile" class="form-control" placeholder="Enter 10-digit mobile number" pattern="[6-9][0-9]{9}" required>
+                            <input type="tel" name="mobile" class="form-control" placeholder="10-digit mobile number" pattern="[6-9][0-9]{9}" required>
                         </div>
+                        <small class="form-text">Must be 10 digits starting with 6, 7, 8, or 9</small>
                     </div>
                     <div class="form-group">
                         <label>Password</label>
                         <div class="input-group">
                             <i class="fas fa-lock"></i>
-                            <input type="password" name="password" class="form-control" placeholder="Enter your password" required>
+                            <input type="password" name="password" id="password" class="form-control" placeholder="Create a password" required minlength="6">
+                        </div>
+                        <div class="password-strength">
+                            <div class="password-strength-bar" id="strengthBar"></div>
+                        </div>
+                        <small class="form-text">Minimum 6 characters</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-check-circle"></i>
+                            <input type="password" name="confirm_password" id="confirmPassword" class="form-control" placeholder="Confirm your password" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn-login">
-                        <i class="fas fa-sign-in-alt"></i> Login
+                    <button type="submit" class="btn-register">
+                        <i class="fas fa-user-plus"></i> Register
                     </button>
                 </form>
-                <div class="register-link">
-                    Don't have an account? <a href="{{ url_for('register') }}">Create Account</a>
-                </div>
-                <div class="demo-info">
-                    <i class="fas fa-info-circle"></i> <strong>Demo Credentials:</strong><br>
-                    Mobile: Registered mobile number | Password: Your registered password
+                <div class="login-link">
+                    Already have an account? <a href="{{ url_for('login') }}">Login Here</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirmPassword');
+        const strengthBar = document.getElementById('strengthBar');
+
+        password.addEventListener('input', function() {
+            const val = this.value;
+            let strength = 0;
+            
+            if (val.length >= 6) strength += 25;
+            if (val.match(/[a-z]+/)) strength += 25;
+            if (val.match(/[A-Z]+/)) strength += 25;
+            if (val.match(/[0-9]+/)) strength += 25;
+            
+            strengthBar.style.width = strength + '%';
+            
+            if (strength <= 25) {
+                strengthBar.style.backgroundColor = '#dc2626';
+            } else if (strength <= 50) {
+                strengthBar.style.backgroundColor = '#f59e0b';
+            } else if (strength <= 75) {
+                strengthBar.style.backgroundColor = '#3b82f6';
+            } else {
+                strengthBar.style.backgroundColor = '#10b981';
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            if (password.value !== confirmPassword.value) {
+                e.preventDefault();
+                alert('Passwords do not match!');
+            }
+        });
+    </script>
 </body>
 </html>
