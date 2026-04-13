@@ -1,11 +1,12 @@
+<!-- templates/wallet.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>My Wallet | QuickRecharge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - Recharge Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,146 +15,281 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: #f5f7fb;
-            padding-bottom: 75px;
+            padding-bottom: 80px;
         }
 
-        .app-container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #f5f7fb;
-            min-height: 100vh;
-        }
-
-        .status-bar {
-            background: white;
-            padding: 12px 20px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .content-area {
-            padding: 20px 16px 30px;
-        }
-
-        .wallet-card {
+        /* Header */
+        .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-radius: 24px;
-            padding: 28px;
-            text-align: center;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 20px rgba(102,126,234,0.3);
+            padding: 20px;
         }
 
-        .wallet-label {
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .back-btn i {
+            margin-right: 5px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        /* Wallet Balance Card */
+        .balance-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .balance-label {
             font-size: 14px;
             opacity: 0.9;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
-        .wallet-amount {
+        .balance-amount {
             font-size: 48px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .wallet-id {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-
-        .section-title {
-            font-size: 18px;
             font-weight: 700;
-            margin-bottom: 16px;
-            color: #1e293b;
         }
 
-        .add-money-form {
+        /* Add Money Card */
+        .add-money-card {
+            background: white;
+            border-radius: 20px;
+            margin: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title i {
+            color: #667eea;
+        }
+
+        .info-box {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
             display: flex;
             gap: 12px;
-            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+
+        .info-box i {
+            color: #667eea;
+            font-size: 20px;
+            margin-top: 2px;
+        }
+
+        .info-box p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .info-box strong {
+            color: #333;
+        }
+
+        .amount-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .amount-input-group .input-group {
+            flex: 1;
+            position: relative;
+        }
+
+        .currency-symbol {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-weight: 600;
         }
 
         .amount-input {
-            flex: 1;
-            padding: 14px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 50px;
+            width: 100%;
+            padding: 14px 15px 14px 35px;
             font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-family: 'Poppins', sans-serif;
         }
 
-        .btn-add {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            border: none;
-            border-radius: 50px;
-            padding: 0 24px;
-            font-weight: 600;
+        .amount-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-request {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 12px;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-request:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .limit-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* Transactions Card */
+        .transactions-card {
+            background: white;
+            border-radius: 20px;
+            margin: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .transactions-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 600;
+            color: #333;
+            background: #fafafa;
         }
 
         .transaction-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid #f1f5f9;
         }
 
-        .transaction-info h4 {
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-left {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .transaction-icon.credit {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .transaction-icon.debit {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .transaction-details h4 {
             font-size: 14px;
             font-weight: 600;
+            color: #333;
             margin-bottom: 4px;
         }
 
-        .transaction-info p {
-            font-size: 12px;
-            color: #94a3b8;
+        .transaction-details p {
+            font-size: 11px;
+            color: #999;
         }
 
         .transaction-amount {
-            font-weight: 700;
+            text-align: right;
+        }
+
+        .amount.credit {
+            color: #16a34a;
+            font-weight: 600;
             font-size: 16px;
         }
 
-        .text-success {
-            color: #22c55e;
+        .amount.debit {
+            color: #dc2626;
+            font-weight: 600;
+            font-size: 16px;
         }
 
-        .text-danger {
-            color: #ef4444;
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
         }
 
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 500px;
-            margin: 0 auto;
+            width: 100%;
             background: white;
-            border-top: 1px solid #e2e8f0;
-            padding: 8px 16px 20px;
+            border-top: 1px solid #e0e0e0;
+            padding: 10px 0;
             display: flex;
             justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
 
         .nav-item {
             text-align: center;
+            color: #999;
             text-decoration: none;
-            color: #94a3b8;
             font-size: 11px;
-            font-weight: 500;
+            transition: all 0.3s;
             flex: 1;
         }
 
@@ -164,89 +300,144 @@
         }
 
         .nav-item.active {
-            color: #6366f1;
+            color: #667eea;
         }
 
+        .nav-item:hover {
+            color: #667eea;
+        }
+
+        /* Alert */
         .alert {
-            padding: 12px 16px;
+            margin: 20px;
+            padding: 12px 15px;
             border-radius: 12px;
-            margin-bottom: 16px;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .alert-success {
             background: #dcfce7;
-            color: #166534;
-            border-left: 4px solid #22c55e;
+            color: #16a34a;
         }
 
         .alert-danger {
             background: #fee2e2;
-            color: #991b1b;
-            border-left: 4px solid #ef4444;
+            color: #dc2626;
+        }
+
+        .alert-info {
+            background: #e8f4fd;
+            color: #0284c7;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="status-bar">
-            <i class="fas fa-bolt" style="color: #6366f1;"></i>
-            <span style="font-weight: 600; margin-left: 8px;">My Wallet</span>
+    <div class="header">
+        <a href="{{ url_for('dashboard') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <div class="page-title">My Wallet</div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    <i class="fas fa-{% if category == 'danger' %}exclamation-circle{% elif category == 'success' %}check-circle{% else %}info-circle{% endif %}"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="balance-card">
+        <div class="balance-label">
+            <i class="fas fa-wallet"></i> Available Balance
         </div>
+        <div class="balance-amount">
+            ₹{{ "%.2f"|format(user.wallet_balance) }}
+        </div>
+    </div>
 
-        <div class="content-area">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-            <div class="wallet-card">
-                <div class="wallet-label">Total Balance</div>
-                <div class="wallet-amount">₹{{ "%.2f"|format(user.wallet_balance) }}</div>
-                <div class="wallet-id">Wallet ID: {{ user.id[:8] }}...</div>
+    <div class="add-money-card">
+        <div class="card-title">
+            <i class="fas fa-plus-circle"></i> Add Money to Wallet
+        </div>
+        <div class="info-box">
+            <i class="fas fa-info-circle"></i>
+            <p>To add money to your wallet, please contact <strong>{{ admin_name }}</strong> at <strong>{{ admin_mobile }}</strong>. After requesting, call admin to complete the transaction.</p>
+        </div>
+        <form method="POST" action="{{ url_for('add_money_request') }}">
+            <div class="amount-input-group">
+                <div class="input-group">
+                    <span class="currency-symbol">₹</span>
+                    <input type="number" name="amount" class="amount-input" placeholder="Enter amount" min="1" max="10000" step="1" required>
+                </div>
+                <button type="submit" class="btn-request">
+                    <i class="fas fa-paper-plane"></i> Request
+                </button>
             </div>
+            <small class="limit-text">
+                <i class="fas fa-chart-line"></i> Min: ₹1 | Max: ₹10,000 per request
+            </small>
+        </form>
+    </div>
 
-            <div class="card">
-                <div class="section-title">Add Money</div>
-                <form method="POST" action="{{ url_for('add_money') }}">
-                    <div class="add-money-form">
-                        <input type="number" name="amount" class="amount-input" placeholder="Enter amount" min="1" max="10000" step="1" required>
-                        <button type="submit" class="btn-add">Add</button>
+    <div class="transactions-card">
+        <div class="transactions-header">
+            <i class="fas fa-history"></i> Wallet Transactions
+        </div>
+        {% if transactions %}
+            {% for txn in transactions %}
+            <div class="transaction-item">
+                <div class="transaction-left">
+                    <div class="transaction-icon {% if txn.type == 'CREDIT' %}credit{% else %}debit{% endif %}">
+                        <i class="fas fa-{% if txn.type == 'CREDIT' %}plus{% else %}minus{% endif %}"></i>
                     </div>
-                    <small style="color: #94a3b8;">Min: ₹1 | Max: ₹10,000 per transaction</small>
-                </form>
-            </div>
-
-            <div class="card">
-                <div class="section-title">Transaction History</div>
-                {% if transactions %}
-                    {% for txn in transactions %}
-                    <div class="transaction-item">
-                        <div class="transaction-info">
-                            <h4>{{ txn.description[:35] }}</h4>
-                            <p>{{ txn.date[:16]|replace('T', ' ') }}</p>
-                        </div>
-                        <div class="transaction-amount {% if txn.type == 'CREDIT' %}text-success{% else %}text-danger{% endif %}">
-                            {% if txn.type == 'CREDIT' %}+{% else %}-{% endif %} ₹{{ "%.2f"|format(txn.amount) }}
-                        </div>
+                    <div class="transaction-details">
+                        <h4>{% if txn.type == 'CREDIT' %}Money Added{% else %}Payment Made{% endif %}</h4>
+                        <p>{{ txn.description[:40] }} • {{ txn.date[:16]|replace('T', ' ') }}</p>
                     </div>
-                    {% endfor %}
-                {% else %}
-                    <p style="text-align: center; color: #94a3b8; padding: 20px;">No transactions yet</p>
-                {% endif %}
+                </div>
+                <div class="transaction-amount">
+                    <span class="amount {% if txn.type == 'CREDIT' %}credit{% else %}debit{% endif %}">
+                        {% if txn.type == 'CREDIT' %}+{% else %}-{% endif %} ₹{{ "%.2f"|format(txn.amount) }}
+                    </span>
+                </div>
             </div>
-        </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-receipt"></i>
+                <p>No wallet transactions yet</p>
+            </div>
+        {% endif %}
+    </div>
 
-        <div class="bottom-nav">
-            <a href="{{ url_for('dashboard') }}" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
-            <a href="{{ url_for('mobile_recharge') }}" class="nav-item"><i class="fas fa-mobile-alt"></i><span>Mobile</span></a>
-            <a href="{{ url_for('dth_recharge') }}" class="nav-item"><i class="fas fa-tv"></i><span>DTH</span></a>
-            <a href="{{ url_for('history') }}" class="nav-item"><i class="fas fa-history"></i><span>History</span></a>
-            <a href="{{ url_for('wallet') }}" class="nav-item active"><i class="fas fa-wallet"></i><span>Wallet</span></a>
-        </div>
+    <div class="bottom-nav">
+        <a href="{{ url_for('dashboard') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ url_for('mobile_recharge') }}" class="nav-item">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Mobile</span>
+        </a>
+        <a href="{{ url_for('dth_recharge') }}" class="nav-item">
+            <i class="fas fa-tv"></i>
+            <span>DTH</span>
+        </a>
+        <a href="{{ url_for('history') }}" class="nav-item">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+        <a href="{{ url_for('wallet') }}" class="nav-item active">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
     </div>
 </body>
 </html>

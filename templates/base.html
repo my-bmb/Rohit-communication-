@@ -1,13 +1,22 @@
-=== base.html ===
+<!-- templates/base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <meta name="theme-color" content="#6366f1">
-    <title>{% block title %}QuickRecharge{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="Fast & Secure Mobile and DTH Recharge Platform">
+    <meta name="theme-color" content="#667eea">
+    <title>{% block title %}RechargeNow - Fast Recharge Platform{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS (Lightweight) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
@@ -16,33 +25,176 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fb 0%, #e9ecef 100%);
             min-height: 100vh;
-            padding-bottom: 75px;
-        }
-
-        /* Main Container */
-        .app-container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #f5f7fb;
-            min-height: 100vh;
-            border-radius: 0;
-            box-shadow: 0 0 40px rgba(0,0,0,0.1);
+            padding-bottom: 70px;
             position: relative;
         }
 
-        /* Status Bar */
-        .status-bar {
-            background: white;
-            padding: 12px 20px;
-            border-bottom: 1px solid #f0f0f0;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
 
-        /* Content Area */
-        .content-area {
-            padding: 20px 16px 30px;
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+
+        /* Header Styles */
+        .app-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 20px 15px;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            font-size: 28px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.15);
+            padding: 8px 14px;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .welcome-section h2 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .welcome-section p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* Content Container */
+        .content-wrapper {
+            min-height: calc(100vh - 200px);
+            padding: 0 15px 20px;
+        }
+
+        /* Card Styles */
+        .card-custom {
+            background: white;
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-header-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+            border: none;
+        }
+
+        /* Button Styles */
+        .btn-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+
+        .btn-success-custom {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        /* Alert Styles */
+        .alert-custom {
+            border-radius: 12px;
+            border: none;
+            padding: 12px 18px;
+            margin-bottom: 20px;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Bottom Navigation */
@@ -51,187 +203,380 @@
             bottom: 0;
             left: 0;
             right: 0;
-            max-width: 500px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.98);
-            backdrop-filter: blur(10px);
+            background: white;
             border-top: 1px solid rgba(0,0,0,0.08);
-            padding: 8px 16px 20px;
+            padding: 8px 0 12px;
             display: flex;
             justify-content: space-around;
+            box-shadow: 0 -2px 15px rgba(0,0,0,0.05);
             z-index: 1000;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
         }
 
         .nav-item {
             text-align: center;
+            color: #999;
             text-decoration: none;
-            color: #94a3b8;
             font-size: 11px;
-            font-weight: 500;
-            transition: all 0.2s;
+            transition: all 0.3s;
             flex: 1;
-            padding: 4px 0;
+            padding: 5px 0;
+            border-radius: 10px;
         }
 
         .nav-item i {
             font-size: 22px;
             display: block;
             margin-bottom: 4px;
-        }
-
-        .nav-item.active {
-            color: #6366f1;
+            transition: transform 0.2s;
         }
 
         .nav-item span {
             font-size: 11px;
-        }
-
-        /* Cards */
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        /* Buttons */
-        .btn-primary {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border: none;
-            border-radius: 50px;
-            padding: 14px 28px;
-            font-weight: 600;
-            color: white;
-            width: 100%;
-            font-size: 16px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
-
-        .btn-secondary {
-            background: #f1f5f9;
-            border: none;
-            border-radius: 50px;
-            padding: 12px 24px;
             font-weight: 500;
-            color: #475569;
-            width: 100%;
-            cursor: pointer;
         }
 
-        /* Inputs */
-        .input-group {
-            margin-bottom: 16px;
+        .nav-item:hover {
+            color: #667eea;
         }
 
-        .input-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 8px;
-            display: block;
+        .nav-item:hover i {
+            transform: translateY(-2px);
         }
 
-        .input-field {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            font-size: 15px;
-            transition: all 0.2s;
-            background: white;
+        .nav-item.active {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
         }
 
-        .input-field:focus {
-            outline: none;
-            border-color: #6366f1;
+        /* Loading Spinner */
+        .spinner-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            display: none;
         }
 
-        /* Flash Messages */
-        .alert {
-            padding: 12px 16px;
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Form Styles */
+        .form-control-custom {
+            border: 2px solid #e0e0e0;
             border-radius: 12px;
-            margin-bottom: 16px;
-            font-size: 14px;
+            padding: 12px 15px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
         }
 
-        .alert-success {
-            background: #dcfce7;
-            color: #166534;
-            border-left: 4px solid #22c55e;
+        .form-control-custom:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            outline: none;
         }
 
-        .alert-danger {
-            background: #fee2e2;
-            color: #991b1b;
-            border-left: 4px solid #ef4444;
+        /* Utility Classes */
+        .text-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .alert-warning {
-            background: #fef3c7;
-            color: #92400e;
-            border-left: 4px solid #f59e0b;
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .app-header {
+                padding: 15px 15px 12px;
+            }
+            
+            .logo {
+                font-size: 18px;
+            }
+            
+            .logo i {
+                font-size: 24px;
+            }
+            
+            .user-name {
+                font-size: 12px;
+                padding: 4px 10px;
+            }
+            
+            .logout-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+            
+            .welcome-section h2 {
+                font-size: 18px;
+            }
+            
+            .nav-item i {
+                font-size: 20px;
+            }
+            
+            .nav-item span {
+                font-size: 10px;
+            }
+        }
+
+        /* Animation for page transitions */
+        .page-transition {
+            animation: pageEnter 0.3s ease;
+        }
+
+        @keyframes pageEnter {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #666;
         }
 
         /* Wallet Balance Card */
         .wallet-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 20px;
+            padding: 25px;
             color: white;
-            border-radius: 24px;
-            padding: 24px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        /* Service Grid */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .service-card i {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .service-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .service-card p {
+            font-size: 11px;
+            color: #666;
         }
     </style>
+
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <div class="app-container">
-        <div class="status-bar">
-            <i class="fas fa-bolt" style="color: #6366f1;"></i>
-            <span style="font-weight: 600; margin-left: 8px;">QuickRecharge</span>
-        </div>
 
-        <div class="content-area">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">
-                            <i class="fas fa-info-circle"></i> {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-            {% block content %}{% endblock %}
-        </div>
-
-        {% if session.user_id %}
-        <div class="bottom-nav">
-            <a href="{{ url_for('dashboard') }}" class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}">
-                <i class="fas fa-home"></i><span>Home</span>
-            </a>
-            <a href="{{ url_for('mobile_recharge') }}" class="nav-item {% if request.endpoint == 'mobile_recharge' %}active{% endif %}">
-                <i class="fas fa-mobile-alt"></i><span>Mobile</span>
-            </a>
-            <a href="{{ url_for('dth_recharge') }}" class="nav-item {% if request.endpoint == 'dth_recharge' %}active{% endif %}">
-                <i class="fas fa-tv"></i><span>DTH</span>
-            </a>
-            <a href="{{ url_for('history') }}" class="nav-item {% if request.endpoint == 'history' %}active{% endif %}">
-                <i class="fas fa-history"></i><span>History</span>
-            </a>
-            <a href="{{ url_for('wallet') }}" class="nav-item {% if request.endpoint == 'wallet' %}active{% endif %}">
-                <i class="fas fa-wallet"></i><span>Wallet</span>
-            </a>
-        </div>
-        {% endif %}
+    <!-- Loading Spinner -->
+    <div class="spinner-wrapper" id="loadingSpinner">
+        <div class="spinner"></div>
     </div>
+
+    <!-- Header Section (Only for logged in users) -->
+    {% if session.user_id %}
+    <div class="app-header">
+        <div class="header-top">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>RechargeNow</span>
+            </div>
+            <div class="user-menu">
+                <span class="user-name">
+                    <i class="fas fa-user-circle"></i> {{ session.user_name }}
+                </span>
+                <a href="{{ url_for('logout') }}" class="logout-btn" onclick="showSpinner()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+        <div class="welcome-section">
+            <h2>Welcome back, {{ session.user_name.split()[0] }}! 👋</h2>
+            <p>Ready to recharge your mobile or DTH?</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Flash Messages -->
+    <div class="container-fluid px-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category if category != 'message' else 'info' }} alert-custom alert-dismissible fade show" role="alert">
+                        <i class="fas fa-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-circle{% elif category == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %} me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper page-transition">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Bottom Navigation (Only for logged in users) -->
+    {% if session.user_id %}
+    <div class="bottom-nav">
+        <a href="{{ url_for('dashboard') }}" class="nav-item {% if request.endpoint == 'dashboard' %}active{% endif %}" onclick="showSpinner()">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ url_for('mobile_recharge') }}" class="nav-item {% if request.endpoint == 'mobile_recharge' %}active{% endif %}" onclick="showSpinner()">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Mobile</span>
+        </a>
+        <a href="{{ url_for('dth_recharge') }}" class="nav-item {% if request.endpoint == 'dth_recharge' %}active{% endif %}" onclick="showSpinner()">
+            <i class="fas fa-tv"></i>
+            <span>DTH</span>
+        </a>
+        <a href="{{ url_for('history') }}" class="nav-item {% if request.endpoint == 'history' %}active{% endif %}" onclick="showSpinner()">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+        <a href="{{ url_for('wallet') }}" class="nav-item {% if request.endpoint == 'wallet' %}active{% endif %}" onclick="showSpinner()">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
+    </div>
+    {% endif %}
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Show loading spinner
+        function showSpinner() {
+            const spinner = document.getElementById('loadingSpinner');
+            if (spinner) {
+                spinner.style.display = 'flex';
+            }
+        }
+
+        // Hide loading spinner when page loads
+        window.addEventListener('load', function() {
+            const spinner = document.getElementById('loadingSpinner');
+            if (spinner) {
+                spinner.style.display = 'none';
+            }
+        });
+
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                const bsAlert = new bootstrap.Alert(alert);
+                setTimeout(function() {
+                    bsAlert.close();
+                }, 5000);
+            });
+        }, 1000);
+
+        // Add active class to current nav item based on URL
+        const currentPath = window.location.pathname;
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        navItems.forEach(item => {
+            const href = item.getAttribute('href');
+            if (href && currentPath.includes(href) && href !== '/') {
+                navItems.forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+            }
+        });
+
+        // Prevent multiple form submissions
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                const submitBtn = this.querySelector('button[type="submit"]');
+                if (submitBtn && !submitBtn.disabled) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                    showSpinner();
+                }
+            });
+        });
+
+        // Add touch feedback for mobile
+        const touchElements = document.querySelectorAll('.nav-item, .btn, .service-card, .transaction-item');
+        touchElements.forEach(el => {
+            el.addEventListener('touchstart', function() {
+                this.style.opacity = '0.7';
+            });
+            el.addEventListener('touchend', function() {
+                this.style.opacity = '1';
+            });
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -1,11 +1,12 @@
+<!-- templates/history.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Transaction History | QuickRecharge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History - Recharge Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,161 +15,259 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: #f5f7fb;
-            padding-bottom: 75px;
+            padding-bottom: 80px;
         }
 
-        .app-container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #f5f7fb;
-            min-height: 100vh;
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
         }
 
-        .status-bar {
-            background: white;
-            padding: 12px 20px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .content-area {
-            padding: 20px 16px 30px;
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 15px;
         }
 
         .page-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-size: 24px;
+            font-weight: 600;
         }
 
-        .filter-tabs {
-            display: flex;
+        .page-title i {
+            margin-right: 10px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
-            margin-bottom: 20px;
-            overflow-x: auto;
+            margin: 20px;
         }
 
-        .filter-tab {
-            padding: 8px 20px;
+        .stat-card {
             background: white;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
-            color: #64748b;
-            white-space: nowrap;
+            padding: 15px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .stat-card i {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .stat-label {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .stat-card .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .filter-bar {
+            background: white;
+            margin: 0 20px 20px;
+            padding: 12px 15px;
+            border-radius: 12px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .filter-select {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            background: white;
             cursor: pointer;
         }
 
-        .filter-tab.active {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
+        .transactions-card {
+            background: white;
+            border-radius: 20px;
+            margin: 0 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
         .transaction-item {
-            background: white;
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 12px;
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: transform 0.2s;
+            transition: background 0.3s;
+            cursor: pointer;
         }
 
-        .transaction-item:active {
-            transform: scale(0.98);
+        .transaction-item:hover {
+            background: #fafafa;
         }
 
-        .transaction-info h4 {
-            font-size: 16px;
+        .transaction-left {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .transaction-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .transaction-icon.mobile {
+            background: #e8f4fd;
+            color: #667eea;
+        }
+
+        .transaction-icon.dth {
+            background: #ecfdf5;
+            color: #10b981;
+        }
+
+        .transaction-details h4 {
+            font-size: 15px;
             font-weight: 600;
-            margin-bottom: 6px;
+            color: #333;
+            margin-bottom: 4px;
         }
 
-        .transaction-info .details {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
-        .transaction-info .date {
+        .transaction-details p {
             font-size: 11px;
-            color: #cbd5e1;
-            margin-top: 4px;
+            color: #999;
         }
 
         .transaction-right {
             text-align: right;
         }
 
-        .amount {
-            font-weight: 700;
+        .transaction-amount {
             font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            display: block;
             margin-bottom: 6px;
         }
 
         .badge {
             padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
+            border-radius: 20px;
+            font-size: 10px;
             font-weight: 600;
+            display: inline-block;
         }
 
         .badge-success {
             background: #dcfce7;
-            color: #166534;
+            color: #16a34a;
         }
 
         .badge-danger {
             background: #fee2e2;
-            color: #991b1b;
+            color: #dc2626;
         }
 
         .badge-warning {
             background: #fef3c7;
-            color: #92400e;
+            color: #d97706;
         }
 
         .pagination {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-top: 20px;
+            gap: 8px;
+            padding: 20px;
+            background: white;
+            margin-top: 1px;
         }
 
         .page-link {
-            padding: 10px 16px;
+            padding: 8px 14px;
+            border: 1px solid #e0e0e0;
             background: white;
-            border-radius: 12px;
+            border-radius: 8px;
             text-decoration: none;
-            color: #6366f1;
-            font-weight: 500;
+            color: #667eea;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .page-link:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .page-link.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .page-link.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #666;
         }
 
         .bottom-nav {
             position: fixed;
             bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 500px;
-            margin: 0 auto;
+            width: 100%;
             background: white;
-            border-top: 1px solid #e2e8f0;
-            padding: 8px 16px 20px;
+            border-top: 1px solid #e0e0e0;
+            padding: 10px 0;
             display: flex;
             justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
 
         .nav-item {
             text-align: center;
+            color: #999;
             text-decoration: none;
-            color: #94a3b8;
             font-size: 11px;
-            font-weight: 500;
+            transition: all 0.3s;
             flex: 1;
         }
 
@@ -179,68 +278,172 @@
         }
 
         .nav-item.active {
-            color: #6366f1;
+            color: #667eea;
+        }
+
+        .nav-item:hover {
+            color: #667eea;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="status-bar">
-            <i class="fas fa-bolt" style="color: #6366f1;"></i>
-            <span style="font-weight: 600; margin-left: 8px;">Transaction History</span>
-        </div>
-
-        <div class="content-area">
-            <h1 class="page-title">History</h1>
-
-            {% if transactions.items %}
-                {% for txn in transactions.items %}
-                <a href="{{ url_for('recharge_status', txn_id=txn.txn_id) }}" style="text-decoration: none;">
-                    <div class="transaction-item">
-                        <div class="transaction-info">
-                            <h4>{{ txn.type }} Recharge</h4>
-                            <div class="details">{{ txn.operator }} • {{ txn.number }}</div>
-                            <div class="date">{{ txn.date[:16]|replace('T', ' ') }}</div>
-                        </div>
-                        <div class="transaction-right">
-                            <div class="amount">₹{{ "%.2f"|format(txn.amount) }}</div>
-                            {% if txn.status == 'SUCCESS' %}
-                                <span class="badge badge-success">Success</span>
-                            {% elif txn.status == 'FAILED' %}
-                                <span class="badge badge-danger">Failed</span>
-                            {% else %}
-                                <span class="badge badge-warning">Pending</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </a>
-                {% endfor %}
-
-                {% if transactions.pages > 1 %}
-                <div class="pagination">
-                    {% if transactions.has_prev %}
-                        <a href="?page={{ transactions.prev_num }}" class="page-link">← Previous</a>
-                    {% endif %}
-                    <span class="page-link" style="background: #6366f1; color: white;">Page {{ transactions.page }}</span>
-                    {% if transactions.has_next %}
-                        <a href="?page={{ transactions.next_num }}" class="page-link">Next →</a>
-                    {% endif %}
-                </div>
-                {% endif %}
-            {% else %}
-                <div class="transaction-item" style="justify-content: center;">
-                    <p style="color: #94a3b8;">No transactions found</p>
-                </div>
-            {% endif %}
-        </div>
-
-        <div class="bottom-nav">
-            <a href="{{ url_for('dashboard') }}" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
-            <a href="{{ url_for('mobile_recharge') }}" class="nav-item"><i class="fas fa-mobile-alt"></i><span>Mobile</span></a>
-            <a href="{{ url_for('dth_recharge') }}" class="nav-item"><i class="fas fa-tv"></i><span>DTH</span></a>
-            <a href="{{ url_for('history') }}" class="nav-item active"><i class="fas fa-history"></i><span>History</span></a>
-            <a href="{{ url_for('wallet') }}" class="nav-item"><i class="fas fa-wallet"></i><span>Wallet</span></a>
+    <div class="header">
+        <a href="{{ url_for('dashboard') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <div class="page-title">
+            <i class="fas fa-history"></i> Transaction History
         </div>
     </div>
+
+    <div class="stats-row">
+        <div class="stat-card">
+            <i class="fas fa-check-circle" style="color: #10b981;"></i>
+            <div class="stat-label">Successful</div>
+            <div class="stat-value" id="successCount">0</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-times-circle" style="color: #dc2626;"></i>
+            <div class="stat-label">Failed</div>
+            <div class="stat-value" id="failedCount">0</div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-clock" style="color: #f59e0b;"></i>
+            <div class="stat-label">Pending</div>
+            <div class="stat-value" id="pendingCount">0</div>
+        </div>
+    </div>
+
+    <div class="filter-bar">
+        <select class="filter-select" id="typeFilter">
+            <option value="all">All Types</option>
+            <option value="MOBILE">Mobile Recharge</option>
+            <option value="DTH">DTH Recharge</option>
+        </select>
+        <select class="filter-select" id="statusFilter">
+            <option value="all">All Status</option>
+            <option value="SUCCESS">Successful</option>
+            <option value="FAILED">Failed</option>
+            <option value="PENDING">Pending</option>
+        </select>
+    </div>
+
+    <div class="transactions-card">
+        {% if transactions.items %}
+            {% for txn in transactions.items %}
+            <a href="{{ url_for('recharge_status', txn_id=txn.txn_id) }}" class="transaction-item" style="text-decoration: none;">
+                <div class="transaction-left">
+                    <div class="transaction-icon {% if txn.type == 'MOBILE' %}mobile{% else %}dth{% endif %}">
+                        <i class="fas fa-{% if txn.type == 'MOBILE' %}mobile-alt{% else %}tv{% endif %}"></i>
+                    </div>
+                    <div class="transaction-details">
+                        <h4>{{ txn.type }} Recharge</h4>
+                        <p>{{ txn.number }} • {{ txn.date[:16]|replace('T', ' ') }}</p>
+                    </div>
+                </div>
+                <div class="transaction-right">
+                    <span class="transaction-amount">₹{{ "%.2f"|format(txn.amount) }}</span>
+                    {% if txn.status == 'SUCCESS' %}
+                        <span class="badge badge-success">Success</span>
+                    {% elif txn.status == 'FAILED' %}
+                        <span class="badge badge-danger">Failed</span>
+                    {% else %}
+                        <span class="badge badge-warning">Pending</span>
+                    {% endif %}
+                </div>
+            </a>
+            {% endfor %}
+            
+            <div class="pagination">
+                {% if transactions.has_prev %}
+                    <a href="?page={{ transactions.prev_num }}&type={{ request.args.get('type', 'all') }}&status={{ request.args.get('status', 'all') }}" class="page-link">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </a>
+                {% else %}
+                    <span class="page-link disabled">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </span>
+                {% endif %}
+                
+                <span class="page-link active">Page {{ transactions.page }} of {{ transactions.pages }}</span>
+                
+                {% if transactions.has_next %}
+                    <a href="?page={{ transactions.next_num }}&type={{ request.args.get('type', 'all') }}&status={{ request.args.get('status', 'all') }}" class="page-link">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </a>
+                {% else %}
+                    <span class="page-link disabled">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </span>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <h4>No Transactions Found</h4>
+                <p>You haven't made any recharges yet.</p>
+                <a href="{{ url_for('mobile_recharge') }}" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: #667eea; color: white; border-radius: 10px; text-decoration: none;">
+                    <i class="fas fa-mobile-alt"></i> Recharge Now
+                </a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="bottom-nav">
+        <a href="{{ url_for('dashboard') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ url_for('mobile_recharge') }}" class="nav-item">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Mobile</span>
+        </a>
+        <a href="{{ url_for('dth_recharge') }}" class="nav-item">
+            <i class="fas fa-tv"></i>
+            <span>DTH</span>
+        </a>
+        <a href="{{ url_for('history') }}" class="nav-item active">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+        <a href="{{ url_for('wallet') }}" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
+    </div>
+
+    <script>
+        // Calculate statistics from transactions
+        const transactions = {{ transactions.items|tojson|safe }};
+        let success = 0, failed = 0, pending = 0;
+        
+        transactions.forEach(txn => {
+            if (txn.status === 'SUCCESS') success++;
+            else if (txn.status === 'FAILED') failed++;
+            else pending++;
+        });
+        
+        document.getElementById('successCount').innerText = success;
+        document.getElementById('failedCount').innerText = failed;
+        document.getElementById('pendingCount').innerText = pending;
+
+        // Filter functionality
+        const typeFilter = document.getElementById('typeFilter');
+        const statusFilter = document.getElementById('statusFilter');
+        
+        function applyFilters() {
+            const type = typeFilter.value;
+            const status = statusFilter.value;
+            window.location.href = `?page=1&type=${type}&status=${status}`;
+        }
+        
+        typeFilter.addEventListener('change', applyFilters);
+        statusFilter.addEventListener('change', applyFilters);
+        
+        // Set current filter values from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('type')) typeFilter.value = urlParams.get('type');
+        if (urlParams.get('status')) statusFilter.value = urlParams.get('status');
+    </script>
 </body>
 </html>

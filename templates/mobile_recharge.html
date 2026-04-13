@@ -1,11 +1,12 @@
+<!-- templates/mobile_recharge.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Mobile Recharge | QuickRecharge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Recharge - Recharge Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,129 +15,201 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: #f5f7fb;
-            padding-bottom: 75px;
+            padding-bottom: 80px;
         }
 
-        .app-container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #f5f7fb;
-            min-height: 100vh;
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
         }
 
-        .status-bar {
-            background: white;
-            padding: 12px 20px;
-            border-bottom: 1px solid #f0f0f0;
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 15px;
         }
 
-        .content-area {
-            padding: 20px 16px 30px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        .back-btn i {
+            margin-right: 5px;
         }
 
         .page-title {
             font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-weight: 600;
         }
 
-        .input-group {
+        .page-title i {
+            margin-right: 10px;
+        }
+
+        .recharge-card {
+            background: white;
+            border-radius: 20px;
+            margin: 20px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .form-group {
             margin-bottom: 20px;
         }
 
-        label {
+        .form-group label {
             display: block;
             font-size: 14px;
-            font-weight: 600;
-            color: #1e293b;
+            font-weight: 500;
+            color: #333;
             margin-bottom: 8px;
         }
 
-        input, select {
+        .form-group label i {
+            color: #667eea;
+            margin-right: 5px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 18px;
+        }
+
+        .form-control {
             width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
+            padding: 14px 15px 14px 45px;
             font-size: 15px;
-            transition: all 0.2s;
-            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
         }
 
-        input:focus, select:focus {
+        .form-control:focus {
             outline: none;
-            border-color: #6366f1;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         }
 
-        .plans-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .plan-option {
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 12px;
-            text-align: center;
-            font-weight: 600;
+        select.form-control {
+            padding: 14px 15px 14px 45px;
+            appearance: none;
+            background: white;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
-        .plan-option.selected {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-color: #6366f1;
-            color: white;
-        }
-
-        .btn-primary {
+        .btn-proceed {
             width: 100%;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border: none;
-            border-radius: 50px;
-            padding: 16px;
-            font-weight: 600;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            border: none;
+            border-radius: 12px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 24px;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 10px;
+        }
+
+        .btn-proceed:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .operator-icons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .operator-option {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .operator-option.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .operator-option i {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .operator-option span {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .amount-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .amount-btn {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .amount-btn:hover, .amount-btn.selected {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+
+        .custom-amount {
+            margin-top: 10px;
         }
 
         .bottom-nav {
             position: fixed;
             bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 500px;
-            margin: 0 auto;
+            width: 100%;
             background: white;
-            border-top: 1px solid #e2e8f0;
-            padding: 8px 16px 20px;
+            border-top: 1px solid #e0e0e0;
+            padding: 10px 0;
             display: flex;
             justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
 
         .nav-item {
             text-align: center;
+            color: #999;
             text-decoration: none;
-            color: #94a3b8;
             font-size: 11px;
-            font-weight: 500;
+            transition: all 0.3s;
             flex: 1;
         }
 
@@ -147,104 +220,167 @@
         }
 
         .nav-item.active {
-            color: #6366f1;
+            color: #667eea;
+        }
+
+        .nav-item:hover {
+            color: #667eea;
         }
 
         .alert {
-            padding: 12px 16px;
+            margin: 20px;
+            padding: 12px 15px;
             border-radius: 12px;
-            margin-bottom: 16px;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .alert-danger {
             background: #fee2e2;
-            color: #991b1b;
-            border-left: 4px solid #ef4444;
+            color: #dc2626;
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="status-bar">
-            <i class="fas fa-bolt" style="color: #6366f1;"></i>
-            <span style="font-weight: 600; margin-left: 8px;">Mobile Recharge</span>
-        </div>
-
-        <div class="content-area">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-            <div class="card">
-                <h2 class="page-title"><i class="fas fa-mobile-alt"></i> Mobile Recharge</h2>
-                
-                <form method="POST" action="{{ url_for('process_recharge') }}">
-                    <div class="input-group">
-                        <label>Mobile Number</label>
-                        <input type="tel" name="mobile" placeholder="9876543210" pattern="[6-9][0-9]{9}" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Confirm Mobile Number</label>
-                        <input type="tel" name="confirm_mobile" placeholder="Re-enter mobile number" pattern="[6-9][0-9]{9}" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Operator</label>
-                        <select name="operator" required>
-                            <option value="">Select Operator</option>
-                            {% for op in operators %}
-                            <option value="{{ op }}">{{ op }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Select Amount</label>
-                        <div class="plans-grid">
-                            {% for plan in plans %}
-                            <div class="plan-option" data-amount="{{ plan }}">₹{{ plan }}</div>
-                            {% endfor %}
-                        </div>
-                        <input type="hidden" name="amount" id="selected_amount" required>
-                    </div>
-
-                    <button type="submit" class="btn-primary">Proceed to Recharge →</button>
-                </form>
-            </div>
-        </div>
-
-        <div class="bottom-nav">
-            <a href="{{ url_for('dashboard') }}" class="nav-item">
-                <i class="fas fa-home"></i><span>Home</span>
-            </a>
-            <a href="{{ url_for('mobile_recharge') }}" class="nav-item active">
-                <i class="fas fa-mobile-alt"></i><span>Mobile</span>
-            </a>
-            <a href="{{ url_for('dth_recharge') }}" class="nav-item">
-                <i class="fas fa-tv"></i><span>DTH</span>
-            </a>
-            <a href="{{ url_for('history') }}" class="nav-item">
-                <i class="fas fa-history"></i><span>History</span>
-            </a>
-            <a href="{{ url_for('wallet') }}" class="nav-item">
-                <i class="fas fa-wallet"></i><span>Wallet</span>
-            </a>
+    <div class="header">
+        <a href="{{ url_for('dashboard') }}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <div class="page-title">
+            <i class="fas fa-mobile-alt"></i> Mobile Recharge
         </div>
     </div>
 
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    <i class="fas fa-exclamation-circle"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('process_recharge') }}" id="rechargeForm">
+        <div class="recharge-card">
+            <div class="form-group">
+                <label><i class="fas fa-phone"></i> Mobile Number</label>
+                <div class="input-group">
+                    <i class="fas fa-mobile-alt"></i>
+                    <input type="tel" name="mobile" class="form-control" placeholder="Enter 10-digit mobile number" pattern="[6-9][0-9]{9}" required id="mobile">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-check-circle"></i> Confirm Mobile Number</label>
+                <div class="input-group">
+                    <i class="fas fa-mobile-alt"></i>
+                    <input type="tel" name="confirm_mobile" class="form-control" placeholder="Re-enter mobile number" pattern="[6-9][0-9]{9}" required id="confirmMobile">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-building"></i> Select Operator</label>
+                <div class="operator-icons" id="operatorSelect">
+                    {% for op in operators %}
+                    <div class="operator-option" data-operator="{{ op }}">
+                        {% if op == 'Airtel' %}
+                            <i class="fas fa-signal" style="color: #ff9f00;"></i>
+                        {% elif op == 'Jio' %}
+                            <i class="fas fa-wifi" style="color: #e30613;"></i>
+                        {% elif op == 'Vi' %}
+                            <i class="fas fa-charging-station" style="color: #8b1e8e;"></i>
+                        {% else %}
+                            <i class="fas fa-tower-cell" style="color: #008000;"></i>
+                        {% endif %}
+                        <span>{{ op }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="operator" id="selectedOperator" required>
+            </div>
+
+            <div class="form-group">
+                <label><i class="fas fa-rupee-sign"></i> Select Amount</label>
+                <div class="amount-buttons" id="amountSelect">
+                    {% for plan in plans[:8] %}
+                    <button type="button" class="amount-btn" data-amount="{{ plan }}">₹{{ plan }}</button>
+                    {% endfor %}
+                </div>
+                <div class="custom-amount">
+                    <div class="input-group">
+                        <i class="fas fa-rupee-sign"></i>
+                        <input type="number" name="amount" id="customAmount" class="form-control" placeholder="Or enter custom amount" min="10" step="1">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-proceed">
+                <i class="fas fa-arrow-right"></i> Proceed to Recharge
+            </button>
+        </div>
+    </form>
+
+    <div class="bottom-nav">
+        <a href="{{ url_for('dashboard') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ url_for('mobile_recharge') }}" class="nav-item active">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Mobile</span>
+        </a>
+        <a href="{{ url_for('dth_recharge') }}" class="nav-item">
+            <i class="fas fa-tv"></i>
+            <span>DTH</span>
+        </a>
+        <a href="{{ url_for('history') }}" class="nav-item">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+        <a href="{{ url_for('wallet') }}" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
+    </div>
+
     <script>
-        document.querySelectorAll('.plan-option').forEach(div => {
-            div.addEventListener('click', function() {
-                document.querySelectorAll('.plan-option').forEach(d => d.classList.remove('selected'));
+        // Operator selection
+        const operatorOptions = document.querySelectorAll('.operator-option');
+        const selectedOperatorInput = document.getElementById('selectedOperator');
+        
+        operatorOptions.forEach(opt => {
+            opt.addEventListener('click', function() {
+                operatorOptions.forEach(o => o.classList.remove('selected'));
                 this.classList.add('selected');
-                document.getElementById('selected_amount').value = this.getAttribute('data-amount');
+                selectedOperatorInput.value = this.dataset.operator;
             });
+        });
+
+        // Amount selection
+        const amountBtns = document.querySelectorAll('.amount-btn');
+        const customAmount = document.getElementById('customAmount');
+        
+        amountBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                amountBtns.forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                customAmount.value = this.dataset.amount;
+            });
+        });
+
+        // Mobile number validation
+        const mobile = document.getElementById('mobile');
+        const confirmMobile = document.getElementById('confirmMobile');
+        
+        document.getElementById('rechargeForm').addEventListener('submit', function(e) {
+            if (mobile.value !== confirmMobile.value) {
+                e.preventDefault();
+                alert('Mobile numbers do not match!');
+            }
         });
     </script>
 </body>

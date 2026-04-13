@@ -1,11 +1,12 @@
+<!-- templates/dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Dashboard | QuickRecharge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Recharge Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,180 +15,257 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: #f5f7fb;
-            padding-bottom: 75px;
+            padding-bottom: 80px;
         }
 
-        .app-container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #f5f7fb;
-            min-height: 100vh;
-        }
-
-        .status-bar {
-            background: white;
-            padding: 12px 20px;
-            border-bottom: 1px solid #f0f0f0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .content-area {
-            padding: 20px 16px 30px;
-        }
-
-        .wallet-card {
+        /* Header */
+        .header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-radius: 24px;
-            padding: 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 20px rgba(102,126,234,0.3);
+            padding: 20px;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 20px;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .welcome-section {
+            padding: 10px 0;
+        }
+
+        .welcome-section h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .welcome-section p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        /* Wallet Card */
+        .wallet-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
 
         .wallet-label {
             font-size: 14px;
             opacity: 0.9;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .wallet-amount {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 16px;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 15px;
         }
 
-        .btn-add-money {
+        .add-money-btn {
             background: rgba(255,255,255,0.2);
             border: 1px solid rgba(255,255,255,0.3);
-            border-radius: 50px;
-            padding: 8px 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
             color: white;
             text-decoration: none;
             font-size: 14px;
-            font-weight: 500;
             display: inline-block;
+            transition: all 0.3s;
         }
 
-        .quick-actions {
+        .add-money-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Service Cards */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 20px 15px 20px;
+            color: #333;
+        }
+
+        .services-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 0 20px;
+            margin-bottom: 30px;
         }
 
-        .action-card {
+        .service-card {
             background: white;
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 25px 15px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             text-decoration: none;
-            transition: transform 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            display: block;
         }
 
-        .action-card:active {
-            transform: scale(0.98);
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        .action-icon {
-            font-size: 40px;
+        .service-card i {
+            font-size: 48px;
             margin-bottom: 12px;
         }
 
-        .action-title {
+        .service-card.mobile i { color: #667eea; }
+        .service-card.dth i { color: #10b981; }
+
+        .service-card h4 {
+            font-size: 16px;
             font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 4px;
+            margin-bottom: 5px;
+            color: #333;
         }
 
-        .action-subtitle {
+        .service-card p {
             font-size: 12px;
-            color: #94a3b8;
+            color: #666;
         }
 
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1e293b;
-            margin-bottom: 16px;
+        /* Recent Transactions */
+        .recent-card {
+            background: white;
+            border-radius: 16px;
+            margin: 0 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .recent-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 600;
+            color: #333;
         }
 
         .transaction-item {
-            background: white;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
         .transaction-info h4 {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             margin-bottom: 4px;
+            color: #333;
         }
 
         .transaction-info p {
-            font-size: 12px;
-            color: #94a3b8;
+            font-size: 11px;
+            color: #999;
         }
 
         .transaction-amount {
             text-align: right;
         }
 
-        .amount {
-            font-weight: 700;
+        .transaction-amount .amount {
             font-size: 16px;
+            font-weight: 600;
+            display: block;
         }
 
         .badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
             font-weight: 600;
         }
 
         .badge-success {
             background: #dcfce7;
-            color: #166534;
+            color: #16a34a;
         }
 
         .badge-danger {
             background: #fee2e2;
-            color: #991b1b;
+            color: #dc2626;
         }
 
         .badge-warning {
             background: #fef3c7;
-            color: #92400e;
+            color: #d97706;
         }
 
+        .view-all {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            background: #f8f9fa;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Bottom Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 500px;
-            margin: 0 auto;
+            width: 100%;
             background: white;
-            border-top: 1px solid #e2e8f0;
-            padding: 8px 16px 20px;
+            border-top: 1px solid #e0e0e0;
+            padding: 10px 0;
             display: flex;
             justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
 
         .nav-item {
             text-align: center;
+            color: #999;
             text-decoration: none;
-            color: #94a3b8;
             font-size: 11px;
-            font-weight: 500;
+            transition: all 0.3s;
             flex: 1;
         }
 
@@ -198,107 +276,153 @@
         }
 
         .nav-item.active {
-            color: #6366f1;
+            color: #667eea;
         }
 
+        .nav-item:hover {
+            color: #667eea;
+        }
+
+        /* Alert */
         .alert {
-            padding: 12px 16px;
+            margin: 20px;
+            padding: 12px 15px;
             border-radius: 12px;
-            margin-bottom: 16px;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .alert-success {
             background: #dcfce7;
-            color: #166534;
-            border-left: 4px solid #22c55e;
+            color: #16a34a;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        @media (max-width: 480px) {
+            .wallet-amount {
+                font-size: 32px;
+            }
+            
+            .service-card i {
+                font-size: 36px;
+            }
+            
+            .service-card h4 {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="status-bar">
-            <i class="fas fa-bolt" style="color: #6366f1;"></i>
-            <span style="font-weight: 600; margin-left: 8px;">QuickRecharge</span>
-            <span style="float: right;">Welcome, {{ user.name }}</span>
+    <div class="header">
+        <div class="header-top">
+            <div class="logo">
+                <i class="fas fa-bolt"></i> RechargeNow
+            </div>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
         </div>
+        <div class="welcome-section">
+            <h2>Hello, {{ user.name }}! 👋</h2>
+            <p>Ready to recharge?</p>
+        </div>
+    </div>
 
-        <div class="content-area">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-
-            <div class="wallet-card">
-                <div class="wallet-label">Available Balance</div>
-                <div class="wallet-amount">₹{{ "%.2f"|format(user.wallet_balance) }}</div>
-                <a href="{{ url_for('wallet') }}" class="btn-add-money">
-                    <i class="fas fa-plus"></i> Add Money
-                </a>
-            </div>
-
-            <div class="quick-actions">
-                <a href="{{ url_for('mobile_recharge') }}" class="action-card">
-                    <div class="action-icon">
-                        <i class="fas fa-mobile-alt" style="color: #6366f1;"></i>
-                    </div>
-                    <div class="action-title">Mobile Recharge</div>
-                    <div class="action-subtitle">Prepaid/Postpaid</div>
-                </a>
-                <a href="{{ url_for('dth_recharge') }}" class="action-card">
-                    <div class="action-icon">
-                        <i class="fas fa-tv" style="color: #8b5cf6;"></i>
-                    </div>
-                    <div class="action-title">DTH Recharge</div>
-                    <div class="action-subtitle">Satellite TV</div>
-                </a>
-            </div>
-
-            <div class="section-title">Recent Transactions</div>
-            {% if recent_transactions %}
-                {% for txn in recent_transactions %}
-                <div class="transaction-item">
-                    <div class="transaction-info">
-                        <h4>{{ txn.operator }}</h4>
-                        <p>{{ txn.number }} • {{ txn.date[:10] }}</p>
-                    </div>
-                    <div class="transaction-amount">
-                        <div class="amount">₹{{ "%.2f"|format(txn.amount) }}</div>
-                        {% if txn.status == 'SUCCESS' %}
-                            <span class="badge badge-success">Success</span>
-                        {% elif txn.status == 'FAILED' %}
-                            <span class="badge badge-danger">Failed</span>
-                        {% else %}
-                            <span class="badge badge-warning">Pending</span>
-                        {% endif %}
-                    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    <i class="fas fa-{% if category == 'danger' %}exclamation-circle{% else %}check-circle{% endif %}"></i>
+                    {{ message }}
                 </div>
-                {% endfor %}
-            {% else %}
-                <div class="transaction-item">No recent transactions</div>
-            {% endif %}
-        </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
-        <div class="bottom-nav">
-            <a href="{{ url_for('dashboard') }}" class="nav-item active">
-                <i class="fas fa-home"></i><span>Home</span>
-            </a>
-            <a href="{{ url_for('mobile_recharge') }}" class="nav-item">
-                <i class="fas fa-mobile-alt"></i><span>Mobile</span>
-            </a>
-            <a href="{{ url_for('dth_recharge') }}" class="nav-item">
-                <i class="fas fa-tv"></i><span>DTH</span>
-            </a>
-            <a href="{{ url_for('history') }}" class="nav-item">
-                <i class="fas fa-history"></i><span>History</span>
-            </a>
-            <a href="{{ url_for('wallet') }}" class="nav-item">
-                <i class="fas fa-wallet"></i><span>Wallet</span>
-            </a>
+    <div class="wallet-card">
+        <div class="wallet-label">
+            <i class="fas fa-wallet"></i> Wallet Balance
         </div>
+        <div class="wallet-amount">
+            ₹{{ "%.2f"|format(user.wallet_balance) }}
+        </div>
+        <a href="{{ url_for('wallet') }}" class="add-money-btn">
+            <i class="fas fa-plus"></i> Add Money
+        </a>
+    </div>
+
+    <div class="section-title">Quick Services</div>
+    <div class="services-grid">
+        <a href="{{ url_for('mobile_recharge') }}" class="service-card mobile">
+            <i class="fas fa-mobile-alt"></i>
+            <h4>Mobile Recharge</h4>
+            <p>Prepaid & Postpaid</p>
+        </a>
+        <a href="{{ url_for('dth_recharge') }}" class="service-card dth">
+            <i class="fas fa-tv"></i>
+            <h4>DTH Recharge</h4>
+            <p>All DTH Operators</p>
+        </a>
+    </div>
+
+    {% if recent_transactions %}
+    <div class="section-title">Recent Transactions</div>
+    <div class="recent-card">
+        <div class="recent-header">
+            <i class="fas fa-history"></i> Last 5 Transactions
+        </div>
+        {% for txn in recent_transactions %}
+        <div class="transaction-item">
+            <div class="transaction-info">
+                <h4>{{ txn.type }} Recharge</h4>
+                <p>{{ txn.number }} • {{ txn.date[:16]|replace('T', ' ') }}</p>
+            </div>
+            <div class="transaction-amount">
+                <span class="amount">₹{{ "%.2f"|format(txn.amount) }}</span>
+                {% if txn.status == 'SUCCESS' %}
+                    <span class="badge badge-success">Success</span>
+                {% elif txn.status == 'FAILED' %}
+                    <span class="badge badge-danger">Failed</span>
+                {% else %}
+                    <span class="badge badge-warning">Pending</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+        <a href="{{ url_for('history') }}" class="view-all">
+            View All Transactions <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+    {% endif %}
+
+    <div class="bottom-nav">
+        <a href="{{ url_for('dashboard') }}" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ url_for('mobile_recharge') }}" class="nav-item">
+            <i class="fas fa-mobile-alt"></i>
+            <span>Mobile</span>
+        </a>
+        <a href="{{ url_for('dth_recharge') }}" class="nav-item">
+            <i class="fas fa-tv"></i>
+            <span>DTH</span>
+        </a>
+        <a href="{{ url_for('history') }}" class="nav-item">
+            <i class="fas fa-history"></i>
+            <span>History</span>
+        </a>
+        <a href="{{ url_for('wallet') }}" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
     </div>
 </body>
 </html>
