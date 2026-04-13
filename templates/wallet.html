@@ -176,6 +176,117 @@
             display: block;
         }
 
+        /* Money Requests Card */
+        .requests-card {
+            background: white;
+            border-radius: 20px;
+            margin: 20px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .requests-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            font-weight: 600;
+            color: #333;
+            background: #fafafa;
+        }
+
+        .request-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .request-item:last-child {
+            border-bottom: none;
+        }
+
+        .request-left {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex: 1;
+        }
+
+        .request-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .request-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .request-details p {
+            font-size: 11px;
+            color: #999;
+        }
+
+        .request-id {
+            font-size: 10px;
+            color: #667eea;
+            margin-top: 2px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .request-id i {
+            font-size: 10px;
+            margin-left: 4px;
+        }
+
+        .request-id:hover {
+            text-decoration: underline;
+        }
+
+        .request-amount {
+            text-align: right;
+        }
+
+        .amount-value {
+            font-weight: 700;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .badge-approved {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .badge-rejected {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
         /* Transactions Card */
         .transactions-card {
             background: white;
@@ -209,6 +320,7 @@
             display: flex;
             gap: 12px;
             align-items: center;
+            flex: 1;
         }
 
         .transaction-icon {
@@ -229,6 +341,11 @@
         .transaction-icon.debit {
             background: #fee2e2;
             color: #dc2626;
+        }
+
+        .transaction-icon.pending {
+            background: #fef3c7;
+            color: #d97706;
         }
 
         .transaction-details h4 {
@@ -255,6 +372,12 @@
 
         .amount.debit {
             color: #dc2626;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .amount.pending {
+            color: #d97706;
             font-weight: 600;
             font-size: 16px;
         }
@@ -332,6 +455,33 @@
             background: #e8f4fd;
             color: #0284c7;
         }
+
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-size: 14px;
+            text-align: center;
+            z-index: 1000;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -386,25 +536,89 @@
         </form>
     </div>
 
+    <!-- Money Request History -->
+    <div class="requests-card">
+        <div class="requests-header">
+            <i class="fas fa-clock"></i> Money Request History
+        </div>
+        {% if money_requests and money_requests|length > 0 %}
+            {% for req in money_requests %}
+            <div class="request-item">
+                <div class="request-left">
+                    <div class="request-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <div class="request-details">
+                        <h4>₹{{ "%.2f"|format(req.amount) }}</h4>
+                        <p>{{ req.created_at[:16]|replace('T', ' ') }}</p>
+                        <span class="request-id" onclick="copyToClipboard('{{ req.request_id }}')">
+                            <i class="fas fa-copy"></i> {{ req.request_id[:15] }}...
+                        </span>
+                    </div>
+                </div>
+                <div class="request-amount">
+                    <div class="amount-value"></div>
+                    {% if req.status == 'PENDING' %}
+                        <span class="badge badge-pending">
+                            <i class="fas fa-clock"></i> PENDING
+                        </span>
+                    {% elif req.status == 'APPROVED' %}
+                        <span class="badge badge-approved">
+                            <i class="fas fa-check-circle"></i> APPROVED
+                        </span>
+                    {% elif req.status == 'REJECTED' %}
+                        <span class="badge badge-rejected">
+                            <i class="fas fa-times-circle"></i> REJECTED
+                        </span>
+                    {% else %}
+                        <span class="badge badge-pending">{{ req.status }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>No money requests yet</p>
+                <p style="font-size: 12px; margin-top: 5px;">Click "Request" above to add money to your wallet</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Wallet Transactions -->
     <div class="transactions-card">
         <div class="transactions-header">
             <i class="fas fa-history"></i> Wallet Transactions
         </div>
-        {% if transactions %}
+        {% if transactions and transactions|length > 0 %}
             {% for txn in transactions %}
             <div class="transaction-item">
                 <div class="transaction-left">
-                    <div class="transaction-icon {% if txn.type == 'CREDIT' %}credit{% else %}debit{% endif %}">
-                        <i class="fas fa-{% if txn.type == 'CREDIT' %}plus{% else %}minus{% endif %}"></i>
+                    <div class="transaction-icon {% if txn.type == 'CREDIT' %}credit{% elif txn.type == 'DEBIT' %}debit{% else %}pending{% endif %}">
+                        <i class="fas fa-{% if txn.type == 'CREDIT' %}plus{% elif txn.type == 'DEBIT' %}minus{% else %}clock{% endif %}"></i>
                     </div>
                     <div class="transaction-details">
-                        <h4>{% if txn.type == 'CREDIT' %}Money Added{% else %}Payment Made{% endif %}</h4>
-                        <p>{{ txn.description[:40] }} • {{ txn.date[:16]|replace('T', ' ') }}</p>
+                        <h4>
+                            {% if txn.type == 'CREDIT' %}
+                                Money Added
+                            {% elif txn.type == 'DEBIT' %}
+                                Payment Made
+                            {% else %}
+                                Pending Transaction
+                            {% endif %}
+                        </h4>
+                        <p>{{ txn.description[:50] }} • {{ txn.date[:16]|replace('T', ' ') }}</p>
+                        {% if txn.reference_id %}
+                            <p style="font-size: 10px; color: #999; margin-top: 2px;">
+                                Ref: {{ txn.reference_id[:20] }}...
+                            </p>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="transaction-amount">
-                    <span class="amount {% if txn.type == 'CREDIT' %}credit{% else %}debit{% endif %}">
-                        {% if txn.type == 'CREDIT' %}+{% else %}-{% endif %} ₹{{ "%.2f"|format(txn.amount) }}
+                    <span class="amount {% if txn.type == 'CREDIT' %}credit{% elif txn.type == 'DEBIT' %}debit{% else %}pending{% endif %}">
+                        {% if txn.type == 'CREDIT' %}+{% elif txn.type == 'DEBIT' %}-{% endif %} 
+                        ₹{{ "%.2f"|format(txn.amount) }}
                     </span>
                 </div>
             </div>
@@ -439,5 +653,38 @@
             <span>Wallet</span>
         </a>
     </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast('Request ID copied: ' + text);
+            }).catch(function() {
+                alert('Could not copy. Please select and copy manually: ' + text);
+            });
+        }
+
+        function showToast(message) {
+            var toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
+            document.body.appendChild(toast);
+            
+            setTimeout(function() {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                alert.style.opacity = '0';
+                alert.style.transition = 'opacity 0.5s';
+                setTimeout(function() {
+                    if(alert.parentNode) alert.remove();
+                }, 500);
+            });
+        }, 5000);
+    </script>
 </body>
 </html>
