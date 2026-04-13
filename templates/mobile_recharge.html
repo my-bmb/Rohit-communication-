@@ -1,0 +1,252 @@
+=== mobile_recharge.html ===
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Mobile Recharge | QuickRecharge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fb;
+            padding-bottom: 75px;
+        }
+
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #f5f7fb;
+            min-height: 100vh;
+        }
+
+        .status-bar {
+            background: white;
+            padding: 12px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .content-area {
+            padding: 20px 16px 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            font-size: 15px;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .plan-option {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .plan-option.selected {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: #6366f1;
+            color: white;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            border-radius: 50px;
+            padding: 16px;
+            font-weight: 600;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 24px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 8px 16px 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            text-align: center;
+            text-decoration: none;
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .nav-item i {
+            font-size: 22px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: #6366f1;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="status-bar">
+            <i class="fas fa-bolt" style="color: #6366f1;"></i>
+            <span style="font-weight: 600; margin-left: 8px;">Mobile Recharge</span>
+        </div>
+
+        <div class="content-area">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="card">
+                <h2 class="page-title"><i class="fas fa-mobile-alt"></i> Mobile Recharge</h2>
+                
+                <form method="POST" action="{{ url_for('process_recharge') }}">
+                    <div class="input-group">
+                        <label>Mobile Number</label>
+                        <input type="tel" name="mobile" placeholder="9876543210" pattern="[6-9][0-9]{9}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Confirm Mobile Number</label>
+                        <input type="tel" name="confirm_mobile" placeholder="Re-enter mobile number" pattern="[6-9][0-9]{9}" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Operator</label>
+                        <select name="operator" required>
+                            <option value="">Select Operator</option>
+                            {% for op in operators %}
+                            <option value="{{ op }}">{{ op }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Select Amount</label>
+                        <div class="plans-grid">
+                            {% for plan in plans %}
+                            <div class="plan-option" data-amount="{{ plan }}">₹{{ plan }}</div>
+                            {% endfor %}
+                        </div>
+                        <input type="hidden" name="amount" id="selected_amount" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Proceed to Recharge →</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <a href="{{ url_for('dashboard') }}" class="nav-item">
+                <i class="fas fa-home"></i><span>Home</span>
+            </a>
+            <a href="{{ url_for('mobile_recharge') }}" class="nav-item active">
+                <i class="fas fa-mobile-alt"></i><span>Mobile</span>
+            </a>
+            <a href="{{ url_for('dth_recharge') }}" class="nav-item">
+                <i class="fas fa-tv"></i><span>DTH</span>
+            </a>
+            <a href="{{ url_for('history') }}" class="nav-item">
+                <i class="fas fa-history"></i><span>History</span>
+            </a>
+            <a href="{{ url_for('wallet') }}" class="nav-item">
+                <i class="fas fa-wallet"></i><span>Wallet</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.querySelectorAll('.plan-option').forEach(div => {
+            div.addEventListener('click', function() {
+                document.querySelectorAll('.plan-option').forEach(d => d.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('selected_amount').value = this.getAttribute('data-amount');
+            });
+        });
+    </script>
+</body>
+</html>
