@@ -1,6 +1,8 @@
 Flask==2.3.3
-supabase==1.0.3
-bcrypt==4.1.2
+supabase
+Werkzeug==2.3.7
+Jinja2==3.1.2
+gunicorn==21.2.0
 python-dotenv==1.0.0
-httpx==0.24.0
-httpcore==0.17.0
+requests>=2.31.0
+pytz==2024.1
