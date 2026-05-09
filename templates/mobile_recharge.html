@@ -1,3 +1,4 @@
+<!-- templates/mobile_recharge.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,13 +104,6 @@
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
         }
 
-        select.form-control {
-            padding: 14px 15px 14px 45px;
-            appearance: none;
-            background: white;
-            cursor: pointer;
-        }
-
         .btn-proceed {
             width: 100%;
             padding: 14px;
@@ -130,7 +124,7 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
-        /* Updated operator-icons: removed special icon colors, just clean text style */
+        /* Operator styles - no logos/buttons, just plain text */
         .operator-icons {
             display: flex;
             gap: 15px;
@@ -149,14 +143,9 @@
             background: white;
         }
 
-        /* No logos, no extra icons inside operator option — just clean text */
-        .operator-option i {
-            display: none;  /* Hides any icons inside operator options — no logo displayed */
-        }
-
         .operator-option span {
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: 500;
             display: block;
         }
 
@@ -165,32 +154,13 @@
             background: #f0f4ff;
         }
 
-        .amount-buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .amount-btn {
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .amount-btn:hover, .amount-btn.selected {
-            border-color: #667eea;
-            background: #667eea;
-            color: white;
+        /* Amount section - only custom input, no preset buttons */
+        .amount-input-wrapper {
+            margin-top: 5px;
         }
 
         .custom-amount {
-            margin-top: 10px;
+            margin-top: 0;
         }
 
         .bottom-nav {
@@ -243,10 +213,12 @@
             color: #dc2626;
         }
         
-        /* Additional tweaks for better consistency */
-        .operator-option span {
-            font-size: 15px;
-            font-weight: 500;
+        /* Hint text styling */
+        .input-hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            margin-left: 5px;
         }
     </style>
 </head>
@@ -294,7 +266,6 @@
                 <div class="operator-icons" id="operatorSelect">
                     {% for op in operators %}
                     <div class="operator-option" data-operator="{{ op }}">
-                        <!-- No logo icons, removed completely as per requirement -->
                         <span>{{ op }}</span>
                     </div>
                     {% endfor %}
@@ -303,16 +274,15 @@
             </div>
 
             <div class="form-group">
-                <label><i class="fas fa-rupee-sign"></i> Select Amount</label>
-                <div class="amount-buttons" id="amountSelect">
-                    {% for plan in plans[:8] %}
-                    <button type="button" class="amount-btn" data-amount="{{ plan }}">₹{{ plan }}</button>
-                    {% endfor %}
-                </div>
+                <label><i class="fas fa-rupee-sign"></i> Enter Amount</label>
+                <!-- Only custom amount input - no preset buttons -->
                 <div class="custom-amount">
                     <div class="input-group">
                         <i class="fas fa-rupee-sign"></i>
-                        <input type="number" name="amount" id="customAmount" class="form-control" placeholder="Or enter custom amount" min="10" step="1">
+                        <input type="number" name="amount" id="customAmount" class="form-control" placeholder="Enter recharge amount" min="10" step="1" required>
+                    </div>
+                    <div class="input-hint">
+                        <i class="fas fa-info-circle"></i> Minimum amount: ₹10
                     </div>
                 </div>
             </div>
@@ -347,7 +317,7 @@
     </div>
 
     <script>
-        // Operator selection — clean without any logos
+        // Operator selection
         const operatorOptions = document.querySelectorAll('.operator-option');
         const selectedOperatorInput = document.getElementById('selectedOperator');
         
@@ -359,70 +329,13 @@
             });
         });
 
-        // Amount selection logic (same as before)
-        const amountBtns = document.querySelectorAll('.amount-btn');
-        const customAmount = document.getElementById('customAmount');
-        
-        amountBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                amountBtns.forEach(b => b.classList.remove('selected'));
-                this.classList.add('selected');
-                customAmount.value = this.dataset.amount;
-            });
-        });
-
-        // Optional: if user manually types into custom amount field, remove selection highlight from preset buttons
-        if(customAmount) {
-            customAmount.addEventListener('input', function() {
-                if(this.value.trim() !== "") {
-                    amountBtns.forEach(btn => btn.classList.remove('selected'));
-                }
-            });
-        }
-
-        // Mobile number match validation on submit
+        // Mobile number match validation
         const mobile = document.getElementById('mobile');
         const confirmMobile = document.getElementById('confirmMobile');
+        const customAmount = document.getElementById('customAmount');
         const rechargeForm = document.getElementById('rechargeForm');
         
-        if(rechargeForm) {
-            rechargeForm.addEventListener('submit', function(e) {
-                // Also ensure operator is selected
-                if (!selectedOperatorInput.value) {
-                    e.preventDefault();
-                    alert('Please select a mobile operator.');
-                    return;
-                }
-                // Check if mobile numbers match
-                if (mobile.value !== confirmMobile.value) {
-                    e.preventDefault();
-                    alert('Mobile numbers do not match!');
-                    return;
-                }
-                // Validate amount: either one of preset or custom amount (non-empty)
-                const amountValue = customAmount.value.trim();
-                if (!amountValue || parseFloat(amountValue) < 10) {
-                    e.preventDefault();
-                    alert('Please enter a valid recharge amount (minimum ₹10).');
-                    return;
-                }
-                // Optional: additional pattern validation for mobile number is already handled by HTML5 pattern.
-            });
-        }
-        
-        // Additional UI enhancement to make operator selection default if required but not breaking
-        // Ensure that operator variable exists from backend via jinja.
-        // In case pre-selection is not forced but from UI, user must choose.
-        // Also set any default styling friendly.
-        
-        // For better UX: if any operator has previously selected value from session? not needed.
-        // Ensure that hidden field gets value on click. If someone tries to submit without selection, alert triggers.
-        
-        // Optional trigger to set operator if user clicks and forgets - already handled
-        // mobile number restrictions UX: auto limit to 10 digits
-        const mobileField = document.getElementById('mobile');
-        const confirmMobileField = document.getElementById('confirmMobile');
-        
+        // Limit mobile number to 10 digits
         function enforceMaxLength(field, maxLen) {
             if(field) {
                 field.addEventListener('input', function(e) {
@@ -432,20 +345,42 @@
                 });
             }
         }
-        enforceMaxLength(mobileField, 10);
-        enforceMaxLength(confirmMobileField, 10);
+        enforceMaxLength(mobile, 10);
+        enforceMaxLength(confirmMobile, 10);
         
-        // Additionally, if any operator is selected by default due to previous backend but we don't set default logo.
-        // Also not needed.
-        // All operator icons / logos are completely removed. No FontAwesome inside operator choice now.
-        // Additional cross-check: there might be any leftover but CSS already hides i inside .operator-option,
-        // and the template didn't render any icon now because we removed them from each loop.
-        
-        // In the unlikely event that some legacy browser caches - but fully removed.
-        // Ensure the styling for operator-option has no pseudo elements and uses only text.
-        
-        // For complete satisfaction, also remove any hover effect that might show icon backgrounds? nothing else needed
-        console.log("Mobile recharge page updated: operator logos removed completely.");
+        // Form submission validation
+        if(rechargeForm) {
+            rechargeForm.addEventListener('submit', function(e) {
+                // Check operator selected
+                if (!selectedOperatorInput.value) {
+                    e.preventDefault();
+                    alert('Please select a mobile operator.');
+                    return;
+                }
+                
+                // Check mobile numbers match
+                if (mobile.value !== confirmMobile.value) {
+                    e.preventDefault();
+                    alert('Mobile numbers do not match!');
+                    return;
+                }
+                
+                // Check amount is valid
+                const amountValue = customAmount.value.trim();
+                if (!amountValue || parseFloat(amountValue) < 10) {
+                    e.preventDefault();
+                    alert('Please enter a valid recharge amount (minimum ₹10).');
+                    return;
+                }
+                
+                // Optional: check if amount is too high (reasonable limit)
+                if (parseFloat(amountValue) > 10000) {
+                    e.preventDefault();
+                    alert('Amount cannot exceed ₹10,000. Please enter a valid amount.');
+                    return;
+                }
+            });
+        }
     </script>
 </body>
 </html>
