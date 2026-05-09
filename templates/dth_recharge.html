@@ -131,20 +131,33 @@
             box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
         }
 
+        /* Operator grid - clean text only, no logos/icons */
         .operator-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 10px;
+            gap: 12px;
+            margin-top: 5px;
         }
 
         .operator-card {
-            padding: 15px;
+            padding: 14px;
             border: 2px solid #e0e0e0;
             border-radius: 12px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+            background: white;
+        }
+
+        /* Hide all icons inside operator cards */
+        .operator-card i {
+            display: none;
+        }
+
+        .operator-card span {
+            font-size: 15px;
+            font-weight: 500;
+            display: block;
         }
 
         .operator-card.selected {
@@ -152,39 +165,16 @@
             background: #ecfdf5;
         }
 
-        .operator-card i {
-            font-size: 28px;
-            display: block;
-            margin-bottom: 8px;
+        /* Amount section - only custom input, no preset buttons */
+        .custom-amount {
+            margin-top: 0;
         }
 
-        .operator-card span {
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .amount-buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .amount-btn {
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .amount-btn:hover, .amount-btn.selected {
-            border-color: #10b981;
-            background: #10b981;
-            color: white;
+        .input-hint {
+            font-size: 12px;
+            color: #888;
+            margin-top: 5px;
+            margin-left: 5px;
         }
 
         .bottom-nav {
@@ -282,17 +272,6 @@
                 <div class="operator-grid" id="operatorSelect">
                     {% for op in operators %}
                     <div class="operator-card" data-operator="{{ op }}">
-                        {% if 'Tata' in op %}
-                            <i class="fas fa-star" style="color: #ff6b6b;"></i>
-                        {% elif 'Airtel' in op %}
-                            <i class="fas fa-signal" style="color: #ff9f00;"></i>
-                        elif 'Dish' in op %}
-                            <i class="fas fa-satellite-dish" style="color: #4a90e2;"></i>
-                        elif 'Sun' in op %}
-                            <i class="fas fa-sun" style="color: #ffa500;"></i>
-                        else %}
-                            <i class="fas fa-tv" style="color: #8b1e8e;"></i>
-                        {% endif %}
                         <span>{{ op }}</span>
                     </div>
                     {% endfor %}
@@ -301,16 +280,15 @@
             </div>
 
             <div class="form-group">
-                <label><i class="fas fa-rupee-sign"></i> Select Amount</label>
-                <div class="amount-buttons" id="amountSelect">
-                    {% for plan in plans[:8] %}
-                    <button type="button" class="amount-btn" data-amount="{{ plan }}">₹{{ plan }}</button>
-                    {% endfor %}
-                </div>
-                <div class="custom-amount" style="margin-top: 10px;">
+                <label><i class="fas fa-rupee-sign"></i> Enter Amount</label>
+                <!-- Only custom amount input - no preset buttons -->
+                <div class="custom-amount">
                     <div class="input-group">
                         <i class="fas fa-rupee-sign"></i>
-                        <input type="number" name="amount" id="customAmount" class="form-control" placeholder="Or enter custom amount" min="50" step="1">
+                        <input type="number" name="amount" id="customAmount" class="form-control" placeholder="Enter recharge amount" min="50" step="1" required>
+                    </div>
+                    <div class="input-hint">
+                        <i class="fas fa-info-circle"></i> Minimum amount: ₹50
                     </div>
                 </div>
             </div>
@@ -357,28 +335,59 @@
             });
         });
 
-        // Amount selection
-        const amountBtns = document.querySelectorAll('.amount-btn');
-        const customAmount = document.getElementById('customAmount');
-        
-        amountBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                amountBtns.forEach(b => b.classList.remove('selected'));
-                this.classList.add('selected');
-                customAmount.value = this.dataset.amount;
-            });
-        });
-
-        // Subscriber ID validation
+        // Subscriber ID validation and match check
         const subscriberId = document.getElementById('subscriberId');
         const confirmSubscriberId = document.getElementById('confirmSubscriberId');
+        const customAmount = document.getElementById('customAmount');
+        const dthForm = document.getElementById('dthForm');
         
-        document.getElementById('dthForm').addEventListener('submit', function(e) {
-            if (subscriberId.value !== confirmSubscriberId.value) {
-                e.preventDefault();
-                alert('Subscriber IDs do not match!');
-            }
-        });
+        // Form submission validation
+        if(dthForm) {
+            dthForm.addEventListener('submit', function(e) {
+                // Check operator selected
+                if (!selectedOperatorInput.value) {
+                    e.preventDefault();
+                    alert('Please select a DTH operator.');
+                    return;
+                }
+                
+                // Check subscriber IDs match
+                if (subscriberId.value !== confirmSubscriberId.value) {
+                    e.preventDefault();
+                    alert('Subscriber IDs do not match!');
+                    return;
+                }
+                
+                // Check subscriber ID is not empty
+                if (!subscriberId.value.trim()) {
+                    e.preventDefault();
+                    alert('Please enter Subscriber ID.');
+                    return;
+                }
+                
+                // Check amount is valid
+                const amountValue = customAmount.value.trim();
+                if (!amountValue || parseFloat(amountValue) < 50) {
+                    e.preventDefault();
+                    alert('Please enter a valid recharge amount (minimum ₹50).');
+                    return;
+                }
+                
+                // Optional: check if amount is too high
+                if (parseFloat(amountValue) > 10000) {
+                    e.preventDefault();
+                    alert('Amount cannot exceed ₹10,000. Please enter a valid amount.');
+                    return;
+                }
+            });
+        }
+        
+        // Auto-clear any preset amount if exists (not needed now but safe)
+        if(customAmount) {
+            customAmount.addEventListener('input', function() {
+                // No preset buttons anymore, but keep for consistency
+            });
+        }
     </script>
 </body>
 </html>
